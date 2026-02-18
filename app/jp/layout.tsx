@@ -5,7 +5,7 @@ import { FVReturnWrapper } from "@/components/fv-return-button"
 import { TopNav } from "@/components/top-nav"
 
 export const metadata: Metadata = {
-  title: "横山真洲",
+  title: "Mashu Yokoyama",
   description: "横山真洲",
 }
 

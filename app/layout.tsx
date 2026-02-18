@@ -12,25 +12,16 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], variable: "--font-noto-sans-jp" })
 
 export const metadata: Metadata = {
-  title: 'mashsroom',
+  title: 'Mashu Yokoyama',
   description: 'Mashu Yokoyama',
   generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
         url: '/icon.svg',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
   },
 }
 
