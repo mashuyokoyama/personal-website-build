@@ -1,5 +1,6 @@
 import React from "react"
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Inter, Noto_Sans_JP } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -38,6 +39,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var p=window.performance;if(!p||typeof p.measure!=="function"||p.__patched)return;var o=p.measure.bind(p);p.measure=function(){try{return o.apply(p,arguments)}catch(e){if((e&&e.message||"").indexOf("negative time stamp")!==-1||e&&e.name==="InvalidAccessError")return;throw e}};p.__patched=true}catch(_){}})();`,
           }}
+        />
+        {/* Google Tag (gtag.js) */}
+        <Script id="gtag-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-1ZTWJZ7B61');
+          `}
+        </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-1ZTWJZ7B61"
+          strategy="afterInteractive"
         />
         <ThemeProvider>
           <GateProvider>
