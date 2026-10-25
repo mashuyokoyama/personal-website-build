@@ -5,8 +5,10 @@ import { useTheme } from "./theme-provider"
 import {
   contentTitleHover,
   layer2,
+  layer3,
   LAYER2_HOVER_TRANSITION_MS,
   navLetterSpacing,
+  supplementLetterSpacing,
 } from "@/lib/text-layers"
 
 const SUB_IMAGE = "/projects/how-we-accept/mothers-touch-sub.jpg"
@@ -48,6 +50,12 @@ export function HowWeAcceptMothersTouch() {
           loading="lazy"
           decoding="async"
         />
+        <figcaption
+          className="mt-2 text-[10px] tracking-wide"
+          style={{ color: layer3(theme), letterSpacing: supplementLetterSpacing }}
+        >
+          photo by Hinata Matsumura
+        </figcaption>
       </figure>
       <div className="flex flex-col items-start gap-2">
         <audio ref={(el) => { audioRefs.current[0] = el }} src={SAMPLES[0].src} preload="none" />
