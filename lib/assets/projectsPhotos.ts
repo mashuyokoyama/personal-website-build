@@ -5,6 +5,8 @@ const toUrl = (filename: string) => `${RAW_BASE}${encodeURIComponent(filename)}`
 interface PhotoEntry {
   canonical: string
   variants?: string[]
+  /** visual-assets 以外の完全 URL。ギャラリー末尾に足す。サムネイルは canonical のまま。 */
+  external?: string[]
 }
 
 const projectPhotoFiles: Record<string, PhotoEntry> = {
@@ -14,6 +16,9 @@ const projectPhotoFiles: Record<string, PhotoEntry> = {
   },
   "the-form-of-quiet": {
     canonical: "The-Form-of-Quiet.JPG",
+    external: [
+      "https://raw.githubusercontent.com/mashuyokoyama/audio-assets/main/projects-photos/The-Form-of-Quiet-2.jpg",
+    ],
   },
   undecided: {
     canonical: "Undecided.png",
@@ -41,7 +46,7 @@ export function getProjectPhotos(slug: string): { thumbnail: string; gallery: st
   const entry = projectPhotoFiles[slug]
   if (!entry) return null
   const filenames = [entry.canonical, ...(entry.variants ?? [])]
-  const urls = filenames.map(toUrl)
+  const urls = [...filenames.map(toUrl), ...(entry.external ?? [])]
   return {
     thumbnail: urls[0],
     gallery: urls,

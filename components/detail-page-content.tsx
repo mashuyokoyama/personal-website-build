@@ -4,6 +4,7 @@ import { AnimatedLink } from "./animated-link"
 import { useTheme } from "./theme-provider"
 import { UndecidedPlaylist } from "./undecided-playlist"
 import { ArtworkVideoSection } from "./artwork-video-section"
+import { FormOfQuietSamples } from "./form-of-quiet-samples"
 import { layer1, layer2, layer3, supplementLetterSpacing } from "@/lib/text-layers"
 import type { Project, Artwork, Credit } from "@/lib/data/types"
 
@@ -696,31 +697,32 @@ function TheFormOfQuietDetail({
         {item.role ? ` · ${item.role}` : ""}
       </p>
 
-      {/* メイン画像：左基軸に合わせる */}
-      <figure className="mb-12 m-0 self-start" aria-hidden={!hasThumb}>
+      {/* メイン画像：Vol.1 / Vol.2 を同じ縦幅で横並び */}
+      <figure className="mb-8 m-0 self-start w-full" aria-hidden={!hasThumb}>
         <div
-          className="w-full overflow-y-auto md:overflow-hidden md:max-h-none md:w-[60vw] md:max-w-[70vw]"
-          style={{
-            opacity: hasThumb ? 1 : 0.08,
-            maxHeight: `${THUMB_MOBILE_MAX_HEIGHT_VH}vh`,
-          }}
+          className="flex w-full items-start gap-2 md:gap-3 md:w-[60vw] md:max-w-[70vw]"
+          style={{ opacity: hasThumb ? 1 : 0.08 }}
         >
-          <div className="w-full md:aspect-[16/10]">
-            {hasThumb ? (
+          {hasThumb ? (
+            (item.gallery && item.gallery.length > 0 ? item.gallery : [item.thumbnail!]).slice(0, 2).map((src) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={item.thumbnail}
+                key={src}
+                src={src}
                 alt=""
-                className="w-full h-auto object-contain object-left md:h-full"
+                className="block min-w-0 flex-1 h-auto object-contain object-left"
+                style={{ maxHeight: `${THUMB_MOBILE_MAX_HEIGHT_VH}vh` }}
                 loading="lazy"
                 decoding="async"
               />
-            ) : (
-              <div className="w-full aspect-[16/10]" />
-            )}
-          </div>
+            ))
+          ) : (
+            <div className="w-full aspect-[16/10]" />
+          )}
         </div>
       </figure>
+
+      <FormOfQuietSamples />
 
       {/* メインテキスト（日英） */}
       <section
@@ -735,6 +737,7 @@ function TheFormOfQuietDetail({
             <p className="whitespace-pre-wrap">
               1960年代ヴィンテージの Braun Audio 3台・スピーカー5台を用いた、サウンドインスタレーションを行いました。ドイツを源流とするアンビエントミュージックや環境音をミックスしたサウンドで、"現実と夢""日常と非日常"の間を漂うサウンドスケープを描きました。
             </p>
+            <p className="whitespace-pre-wrap">Vol.1、Vol.2。ライブサウンドインスタレーション。</p>
           </>
         ) : (
           <>
@@ -744,6 +747,7 @@ function TheFormOfQuietDetail({
             <p className="whitespace-pre-wrap">
               we presented a sound installation using three 1960s vintage Braun Audio units and five speakers. With a mix of ambient music rooted in Germany and environmental sounds, we created a soundscape that drifts between "reality and dream" and "the everyday and the extraordinary."
             </p>
+            <p className="whitespace-pre-wrap">Vol.1, Vol.2. A live sound installation.</p>
           </>
         )}
       </section>
