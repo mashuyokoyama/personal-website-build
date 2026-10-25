@@ -738,13 +738,10 @@ function TheFormOfQuietDetail({
           </>
         ) : (
           <>
-            <p className="whitespace-pre-wrap">
-              At The Form of Quiet, a Braun Audio exhibition held at Common Uncommon
-            </p>
-            <p className="whitespace-pre-wrap">
-              we presented a sound installation using three 1960s vintage Braun Audio units and five speakers. With a mix of ambient music rooted in Germany and environmental sounds, we created a soundscape that drifts between "reality and dream" and "the everyday and the extraordinary."
-            </p>
-            <p className="whitespace-pre-wrap">Vol.1, Vol.2. A live sound installation.</p>
+            <p className="whitespace-pre-wrap">{"At the Braun Audio exhibition \"The Form of Quiet Vol.1, 2,\" held at Common Uncommon,\nwe presented a live sound installation using several 1960s vintage Braun Audio units."}</p>
+            <p className="whitespace-pre-wrap">{"In Vol.1, mixing ambient music rooted in Germany with environmental sounds, we drew a soundscape that drifts between \"reality and dream\" and \"the everyday and the extraordinary.\""}</p>
+            <p className="whitespace-pre-wrap">{"In Vol.2, inspired by Braun Audio\u2014objects from the past that still feel like the design of the future\u2014\nwe created sound around the concept of \"future memory.\""}</p>
+            <p className="whitespace-pre-wrap">{"*A live sound installation is the act of installing sound, live and on site, into speakers and objects.\nWe listen to how each speaker sounds and to the resonance of the space it occupies, and assemble the sound there, recordings included. Changing which sound comes from which speaker, we place the sounds one by one. In time, those layers become a sound installation of the whole space, audience included.\nVisitors do not watch from their seats. They walk through it, and experience how the sound changes from place to place."}</p>
           </>
         )}
       </section>
