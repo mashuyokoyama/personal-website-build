@@ -731,13 +731,10 @@ function TheFormOfQuietDetail({
       >
         {lang === "jp" ? (
           <>
-            <p className="whitespace-pre-wrap">
-              Common Uncommonで行われたBraun Audio企画展The Form of Quietにて
-            </p>
-            <p className="whitespace-pre-wrap">
-              1960年代ヴィンテージの Braun Audio 3台・スピーカー5台を用いた、サウンドインスタレーションを行いました。ドイツを源流とするアンビエントミュージックや環境音をミックスしたサウンドで、"現実と夢""日常と非日常"の間を漂うサウンドスケープを描きました。
-            </p>
-            <p className="whitespace-pre-wrap">Vol.1、Vol.2。ライブサウンドインスタレーション。</p>
+            <p className="whitespace-pre-wrap">{"Common Uncommonで行われたBraun Audio 企画展 \"The Form of Quiet Vol.1,2\" にて\n複数台の1960年代ヴィンテージの Braun Audioを使用したライブサウンドインスタレーションを行いました。"}</p>
+            <p className="whitespace-pre-wrap">{"Vol.1では、ドイツを源流とするアンビエントミュージックや環境音をミックスしたサウンドで、\"現実と夢\"\"日常と非日常\"の間を漂うサウンドスケープを描きました。"}</p>
+            <p className="whitespace-pre-wrap">{"Vol.2では、過去のものでありながら、いまだ未来のデザインを感じさせるBraunAudioの存在に着想を受け、\n\u201d未来の記憶\u201dをコンセプトとしたサウンドを表現しました。"}</p>
+            <p className="whitespace-pre-wrap">{"*ライブサウンドインスタレーションは、スピーカーや対象物に音を、その場で生でインストールしていく行為です。\nそこにあるスピーカーそれぞれの鳴り方と、それが置かれた空間の響きを聴き取り、録音も交えながらその場で音を組み立てていきます。どのスピーカーからどんな音を出すかを変えながら、音を一つずつ置いていく。やがて音の重なりは、観客を含む空間全体のサウンドインスタレーションへと変容します。\n来場者は客席から眺めるのではなく、その中を歩き、場所ごとに変わる音を体験します。"}</p>
           </>
         ) : (
           <>
