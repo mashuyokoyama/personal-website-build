@@ -5,6 +5,7 @@ import { useTheme } from "./theme-provider"
 import { UndecidedPlaylist } from "./undecided-playlist"
 import { ArtworkVideoSection } from "./artwork-video-section"
 import { FormOfQuietSamples } from "./form-of-quiet-samples"
+import { HowWeAcceptMothersTouch } from "./how-we-accept-mothers-touch"
 import { layer1, layer2, layer3, supplementLetterSpacing } from "@/lib/text-layers"
 import type { Project, Artwork, Credit } from "@/lib/data/types"
 
@@ -143,7 +144,7 @@ function HowWeAcceptDetail({
       </p>
 
       {/* メイン画像：左基軸に合わせる（self-start で flex 時の中央寄せを防ぐ） */}
-      <figure className="mb-12 m-0 self-start" aria-hidden={!hasThumb}>
+      <figure className="mb-8 m-0 self-start" aria-hidden={!hasThumb}>
         <div
           className="w-full overflow-y-auto md:overflow-hidden md:max-h-none md:w-[60vw] md:max-w-[70vw]"
           style={{
@@ -167,6 +168,8 @@ function HowWeAcceptDetail({
           </div>
         </div>
       </figure>
+
+      <HowWeAcceptMothersTouch />
 
       {/* メインテキスト（日英で同一構造） */}
       <section
