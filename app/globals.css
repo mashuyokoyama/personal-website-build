@@ -110,6 +110,27 @@
   animation: fadeInSubtle 140ms linear forwards;
 }
 
+/* home: 不透明度だけをゆっくり往復。色・サイズ・位置は変えない。 */
+@keyframes homeSoftBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.42;
+  }
+}
+
+.home-soft-blink {
+  animation: homeSoftBlink 4.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-soft-blink {
+    animation: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
