@@ -819,6 +819,9 @@ function TheFormOfQuietDetail({
   )
 }
 
+const SLEEPS_APPLE_MUSIC_EMBED_URL =
+  "https://embed.music.apple.com/jp/album/sleeps/1655557620?l=en-US"
+
 export function DetailPageContent({ item, lang, backHref, relatedItems, detailText }: DetailPageContentProps) {
   const { theme } = useTheme()
   const titleColor = layer1(theme)
@@ -920,6 +923,21 @@ export function DetailPageContent({ item, lang, backHref, relatedItems, detailTe
                 <div className="w-full aspect-[16/10]" />
               )}
             </div>
+          </div>
+        </figure>
+      )}
+
+      {item.slug === "sleeps" && (
+        <figure className="mb-12 m-0 self-start">
+          <div className="w-full md:w-[60vw] md:max-w-[70vw]">
+            <iframe
+              src={SLEEPS_APPLE_MUSIC_EMBED_URL}
+              title="Sleeps"
+              allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
+              sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+              className="block w-full border-0"
+              style={{ height: 450 }}
+            />
           </div>
         </figure>
       )}
