@@ -145,17 +145,91 @@ async function fetchText(url: string): Promise<string | null> {
   }
 }
 
+const UNDECIDED_PLAYLIST_ID = "PLzzJStal9Vzv3GDxyls4Cga7f-Lz_iBCL"
+
+/**
+ * プレイリスト RSS は最新15本で切れる。
+ * 公式プレイリストにあり、視聴ページの公開日が2025年だった回だけ、新しい順で足す。
+ * すでに含まれている videoId は足さない。
+ */
+const UNDECIDED_2025: { videoId: string; title: string; published: string }[] = [
+  {
+    videoId: "VCe0XWIBJsk",
+    title: "Undecided (with Futo Sakaki)｜2025年12月23日｜#talk",
+    published: "2025-12-24T00:00:00+00:00",
+  },
+  {
+    videoId: "x9JE19LwVtc",
+    title: "Undecided (so what) ｜2025年12月8日｜#talk #experimental",
+    published: "2025-12-09T00:00:00+00:00",
+  },
+  {
+    videoId: "qON5ONy_JUI",
+    title: "Undecided (with Milo)｜2025年11月25日｜#talk #ambient #jazz",
+    published: "2025-11-28T00:00:00+00:00",
+  },
+  {
+    videoId: "Y6JnliUZZSM",
+    title: "Undecided (with Miru Shinoda)｜2025年11月17日｜#talk #ambient",
+    published: "2025-11-18T00:00:00+00:00",
+  },
+  {
+    videoId: "58b9X6Dt8xc",
+    title: "Undecided (with Maryisonacid)\u00a0｜2025年11月11日｜#talk",
+    published: "2025-11-12T00:00:00+00:00",
+  },
+  {
+    videoId: "2sDRDKOZhHw",
+    title: "Undecided w/ Eka｜2025年10月26日｜#talk",
+    published: "2025-10-27T00:00:00+00:00",
+  },
+  {
+    videoId: "np8Tt-EhYmI",
+    title: "Undecided (with 佐々木孝典)｜2025年10月1日｜#talk",
+    published: "2025-10-11T00:00:00+00:00",
+  },
+  {
+    videoId: "GiclsnqiO2s",
+    title: "Undecided (yet…)｜2025年9月16日｜#talk",
+    published: "2025-09-20T00:00:00+00:00",
+  },
+  {
+    videoId: "BZyJI2J1FYQ",
+    title: "Undecided (with Felix) ｜2025年9月2日｜#talk",
+    published: "2025-09-12T00:00:00+00:00",
+  },
+  {
+    videoId: "G4IJhGbJoDw",
+    title: "undecided  ｜2025年8月26日｜#talk",
+    published: "2025-09-12T00:00:00+00:00",
+  },
+  {
+    videoId: "QYlGjeTFh_c",
+    title: "Undecided｜2025年7月22日｜#house #talk",
+    published: "2025-07-23T00:00:00+00:00",
+  },
+]
+
+function appendUndecided2025(playlistId: string, items: YoutubePlaylistItem[]): YoutubePlaylistItem[] {
+  if (playlistId !== UNDECIDED_PLAYLIST_ID) return items
+  const seen = new Set(items.map((item) => item.videoId))
+  const extra = UNDECIDED_2025.filter((item) => !seen.has(item.videoId)).map((item) =>
+    toItem(item.videoId, item.title, item.published),
+  )
+  return extra.length > 0 ? [...items, ...extra] : items
+}
+
 /** プレイリスト RSS が 404 のときは公開プレイリストページから同じ項目を取る。 */
 export async function loadYoutubePlaylist(playlistId: string): Promise<YoutubePlaylistItem[]> {
   const xml = await fetchText(`${FEED_BASE}?playlist_id=${encodeURIComponent(playlistId)}`)
   if (xml) {
     const fromFeed = parsePlaylistXml(xml)
-    if (fromFeed.length > 0) return fromFeed
+    if (fromFeed.length > 0) return appendUndecided2025(playlistId, fromFeed)
   }
   const html = await fetchText(`https://www.youtube.com/playlist?list=${encodeURIComponent(playlistId)}`)
   if (html) {
     const fromPage = parsePlaylistHtml(html)
-    if (fromPage.length > 0) return fromPage
+    if (fromPage.length > 0) return appendUndecided2025(playlistId, fromPage)
   }
-  return youtubePlaylistFallback[playlistId] ?? []
+  return appendUndecided2025(playlistId, youtubePlaylistFallback[playlistId] ?? [])
 }
