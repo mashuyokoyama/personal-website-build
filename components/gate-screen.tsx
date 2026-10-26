@@ -119,7 +119,12 @@ export function GateScreen() {
           pointerEvents: homeOpacity > 0 ? "auto" : "none",
         }}
       >
-        <span className="home-soft-blink">home</span>
+        <span
+          className={homeOpacity === 1 ? "home-soft-blink" : undefined}
+          style={homeOpacity === 1 ? undefined : { opacity: 0 }}
+        >
+          home
+        </span>
       </button>
     </div>
   )
