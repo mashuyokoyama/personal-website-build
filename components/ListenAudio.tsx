@@ -18,6 +18,11 @@ function isDetailPage(pathname: string): boolean {
 }
 
 const LABEL_DELAY_MS = 3500 // JP/EN と同じタイミングでうっすら表示
+
+/** サンプル再生ボタン。ここでのタップは Children.wav の起動に使わない。 */
+function isSampleAudioTarget(target: EventTarget | null): boolean {
+  return target instanceof Element && Boolean(target.closest("[data-sample-audio]"))
+}
 /** 大和比の帯: 右端から同じ距離。縦は 1/2.4 の距離感で下から配置 */
 const FV_BAND_RIGHT_VW = 10
 const FV_BAND_BOTTOM_VH = 14
@@ -71,23 +76,33 @@ export default function ListenAudio() {
   // Gate 通過後のみ：マウス移動 or クリックで再生を試す（同一タブ再訪で Gate スキップ時など）
   useEffect(() => {
     if (!isEntered) return
+    let removed = false
+    const remove = () => {
+      if (removed) return
+      removed = true
+      window.removeEventListener("pointermove", onPointerMove)
+      window.removeEventListener("pointerdown", onPointerDown, { capture: true } as any)
+    }
     const tryFirstPlay = () => {
       if (triedFirstPlayRef.current || hasCompletedOnce) return
       triedFirstPlayRef.current = true
       setRevealed(true)
       playFromStart().catch(() => setNeedsClickToUnlock(true))
+      remove()
     }
-    const onPointerMove = tryFirstPlay
-    const onPointerDown = (e: PointerEvent) => {
-      if (buttonRef.current?.contains(e.target as Node)) return
+    const onPointerMove = (e: PointerEvent) => {
+      // タッチ中の pointermove は、直後のサンプル再生と同じ操作になる
+      if (e.pointerType === "touch") return
       tryFirstPlay()
     }
-    window.addEventListener("pointermove", onPointerMove, { once: true })
-    window.addEventListener("pointerdown", onPointerDown, { once: true, capture: true })
-    return () => {
-      window.removeEventListener("pointermove", onPointerMove)
-      window.removeEventListener("pointerdown", onPointerDown, { capture: true } as any)
+    const onPointerDown = (e: PointerEvent) => {
+      if (buttonRef.current?.contains(e.target as Node)) return
+      if (isSampleAudioTarget(e.target)) return
+      tryFirstPlay()
     }
+    window.addEventListener("pointermove", onPointerMove)
+    window.addEventListener("pointerdown", onPointerDown, { capture: true })
+    return remove
   }, [isEntered, hasCompletedOnce])
 
   // Play Children.wav を JP/EN と同じタイミングでうっすら表示
@@ -101,10 +116,11 @@ export default function ListenAudio() {
     if (!needsClickToUnlock) return
     const onPointerDown = (e: PointerEvent) => {
       if (buttonRef.current?.contains(e.target as Node)) return
+      if (isSampleAudioTarget(e.target)) return
       playFromStart()
       setNeedsClickToUnlock(false)
     }
-    window.addEventListener("pointerdown", onPointerDown, { once: true, capture: true })
+    window.addEventListener("pointerdown", onPointerDown, { capture: true })
     return () => window.removeEventListener("pointerdown", onPointerDown, { capture: true } as any)
   }, [needsClickToUnlock])
 
