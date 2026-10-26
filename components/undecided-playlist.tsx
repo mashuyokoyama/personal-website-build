@@ -50,69 +50,100 @@ export function UndecidedPlaylist({ playlistId }: UndecidedPlaylistProps) {
     return null
   }
 
-  return (
-    <div className="mt-10 flex flex-col gap-12">
-      {/* 横スクロールのリスト */}
-      <section
-        aria-label="Undecided playlist"
-        className="overflow-x-auto pb-4"
+  const publicationYear = (published: string) => /^(\d{4})/.exec(published)?.[1] ?? null
+  const row2026 = items.filter((item) => publicationYear(item.published) === "2026")
+  const row2025 = items.filter((item) => publicationYear(item.published) === "2025")
+  const splitByYear = items.length > 0 && row2026.length + row2025.length === items.length
+  const rows = splitByYear
+    ? [
+        { year: "2026", items: row2026 },
+        { year: "2025", items: row2025 },
+      ].filter((row) => row.items.length > 0)
+    : [{ year: "", items }]
+
+  const renderRow = (rowItems: PlaylistItem[]) => (
+    <div
+      className="overflow-x-auto pb-4"
+      style={{
+        WebkitOverflowScrolling: "touch",
+        scrollbarWidth: "thin",
+      }}
+    >
+      <div
+        className="flex gap-6"
         style={{
-          WebkitOverflowScrolling: "touch",
-          scrollbarWidth: "thin",
+          paddingLeft: "4vw",
+          paddingRight: "12vw",
         }}
       >
-        <div
-          className="flex gap-6"
-          style={{
-            paddingLeft: "4vw",
-            paddingRight: "12vw",
-          }}
-        >
-          {items.map((item) => {
-            const isActive = item.videoId === selectedId
-            return (
-              <button
-                key={item.videoId}
-                type="button"
-                onClick={() => setSelectedId(item.videoId)}
-                className="flex-shrink-0 text-left"
+        {rowItems.map((item) => {
+          const isActive = item.videoId === selectedId
+          return (
+            <button
+              key={item.videoId}
+              type="button"
+              onClick={() => setSelectedId(item.videoId)}
+              className="flex-shrink-0 text-left"
+              style={{
+                width: "180px",
+                cursor: "pointer",
+                background: "transparent",
+                border: "none",
+                padding: 0,
+              }}
+            >
+              <div
                 style={{
-                  width: "180px",
-                  cursor: "pointer",
-                  background: "transparent",
-                  border: "none",
-                  padding: 0,
+                  width: "100%",
+                  height: "100px",
+                  overflow: "hidden",
+                  opacity: isActive ? 0.85 : 0.55,
+                  transition: "opacity 160ms ease-out",
                 }}
               >
-                <div
-                  style={{
-                    width: "100%",
-                    height: "100px",
-                    overflow: "hidden",
-                    opacity: isActive ? 0.85 : 0.55,
-                    transition: "opacity 160ms ease-out",
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={item.thumbnailUrl}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <p
-                  className="mt-2 text-[11px] leading-snug line-clamp-2"
-                  style={{ color: titleColor, letterSpacing: supplementLetterSpacing }}
-                >
-                  {item.title}
-                </p>
-              </button>
-            )
-          })}
-        </div>
-      </section>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={item.thumbnailUrl}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <p
+                className="mt-2 text-[11px] leading-snug line-clamp-2"
+                style={{ color: titleColor, letterSpacing: supplementLetterSpacing }}
+              >
+                {item.title}
+              </p>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="mt-10 flex flex-col gap-12">
+      <div className="flex flex-col gap-8">
+        {rows.map((row) => (
+          <section key={row.year || "all"} aria-label={row.year ? `Undecided ${row.year}` : "Undecided playlist"}>
+            {row.year ? (
+              <p
+                className="text-[11px] mb-3"
+                style={{
+                  color: titleColor,
+                  letterSpacing: supplementLetterSpacing,
+                  paddingLeft: "4vw",
+                }}
+              >
+                {row.year}
+              </p>
+            ) : null}
+            {renderRow(row.items)}
+          </section>
+        ))}
+      </div>
 
       {/* ページ下部のプレイヤー（選択されたときだけ） */}
       {selected && (
