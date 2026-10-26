@@ -40,7 +40,7 @@ export const allProjects: Project[] = [
   {
     slug: "the-form-of-quiet",
     title: "The Form of Quiet Vol.1, 2",
-    year: 2025,
+    year: "2025 - 2026",
     type: "Sound Installation",
     role: "Sound Direction, Sound Design",
     note: "Braun Audio",
