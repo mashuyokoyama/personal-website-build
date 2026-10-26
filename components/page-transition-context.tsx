@@ -43,10 +43,15 @@ export function PageTransitionProvider({ children }: { children: ReactNode }) {
   const animateNavigate = useCallback(
     (href: string) => {
       if (exiting) return
+      // 今いるパスをもう一度押しても pathname は変わらず、exiting が戻らない。
+      // そのままだと以降のメニュー遷移がすべて止まる。
+      const current = (pathname ?? "").split("?")[0].split("#")[0].replace(/\/$/, "") || "/"
+      const next = href.split("?")[0].split("#")[0].replace(/\/$/, "") || "/"
+      if (current === next) return
       setExiting(true)
       setTimeout(() => router.push(href), FADE_OUT_MS)
     },
-    [exiting, router]
+    [exiting, router, pathname]
   )
 
   return (
