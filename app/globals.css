@@ -117,12 +117,12 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.42;
+    opacity: 0;
   }
 }
 
 .home-soft-blink {
-  animation: homeSoftBlink 4.8s ease-in-out infinite;
+  animation: homeSoftBlink 3.6s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
