@@ -110,14 +110,14 @@
   animation: fadeInSubtle 140ms linear forwards;
 }
 
-/* home: 不透明度だけをゆっくり往復。色・サイズ・位置は変えない。 */
+/* home: 見えない状態から現れ、その後は完全に消えて戻る。色・サイズ・位置は変えない。 */
 @keyframes homeSoftBlink {
   0%,
   100% {
-    opacity: 1;
+    opacity: 0;
   }
   50% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
