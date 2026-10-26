@@ -6,6 +6,7 @@ import { UndecidedPlaylist } from "./undecided-playlist"
 import { ArtworkVideoSection } from "./artwork-video-section"
 import { FormOfQuietSamples } from "./form-of-quiet-samples"
 import { HowWeAcceptMothersTouch } from "./how-we-accept-mothers-touch"
+import { SoMadSamples } from "./so-mad-samples"
 import { layer1, layer2, layer3, supplementLetterSpacing } from "@/lib/text-layers"
 import type { Project, Artwork, Credit } from "@/lib/data/types"
 
@@ -922,6 +923,8 @@ export function DetailPageContent({ item, lang, backHref, relatedItems, detailTe
           </div>
         </figure>
       )}
+
+      {item.slug === "so-mad" ? <SoMadSamples /> : null}
 
       {/* 詳細テキスト */}
       {detailText && (
