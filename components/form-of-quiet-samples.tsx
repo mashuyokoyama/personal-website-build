@@ -25,6 +25,7 @@ const BASE_LAYER_FONT = "var(--font-mono), ui-monospace, monospace"
 export function FormOfQuietSamples() {
   const { theme } = useTheme()
   const audioRefs = useRef<Array<HTMLAudioElement | null>>([])
+  const touchPlayedRef = useRef(false)
   const [hovered, setHovered] = useState<number | null>(null)
 
   const toggle = (index: number) => {
@@ -50,7 +51,19 @@ export function FormOfQuietSamples() {
         <button
           key={SAMPLE_SRCS[index]}
           type="button"
-          onClick={() => toggle(index)}
+          data-sample-audio=""
+          onPointerUp={(e) => {
+            if (e.pointerType !== "touch") return
+            touchPlayedRef.current = true
+            toggle(index)
+          }}
+          onClick={() => {
+            if (touchPlayedRef.current) {
+              touchPlayedRef.current = false
+              return
+            }
+            toggle(index)
+          }}
           onMouseEnter={() => setHovered(index)}
           onMouseLeave={() => setHovered(null)}
           style={{
