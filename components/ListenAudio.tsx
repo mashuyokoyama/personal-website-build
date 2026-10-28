@@ -19,9 +19,10 @@ function isDetailPage(pathname: string): boolean {
 
 const LABEL_DELAY_MS = 3500 // JP/EN と同じタイミングでうっすら表示
 
-/** サンプル再生ボタン。ここでのタップは Children.wav の起動に使わない。 */
+/** サンプル再生ボタン。テキストノードへのタップも含む。ここでのタップは Children.wav の起動に使わない。 */
 function isSampleAudioTarget(target: EventTarget | null): boolean {
-  return target instanceof Element && Boolean(target.closest("[data-sample-audio]"))
+  const el = target instanceof Element ? target : target instanceof Node ? target.parentElement : null
+  return Boolean(el?.closest("[data-sample-audio]"))
 }
 /** 大和比の帯: 右端から同じ距離。縦は 1/2.4 の距離感で下から配置 */
 const FV_BAND_RIGHT_VW = 10

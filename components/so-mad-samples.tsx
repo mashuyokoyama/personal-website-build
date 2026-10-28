@@ -8,6 +8,7 @@ import {
   LAYER2_HOVER_TRANSITION_MS,
   navLetterSpacing,
 } from "@/lib/text-layers"
+import { activateSample } from "@/lib/activate-sample"
 
 const SAMPLES = [
   { label: "somad sample1", src: "/projects/so-mad/somad-sample1.wav" },
@@ -20,20 +21,11 @@ const BASE_LAYER_FONT = "var(--font-mono), ui-monospace, monospace"
 export function SoMadSamples() {
   const { theme } = useTheme()
   const audioRefs = useRef<Array<HTMLAudioElement | null>>([])
-  const touchPlayedRef = useRef(false)
+  const startedAtRef = useRef(0)
   const [hovered, setHovered] = useState<number | null>(null)
 
-  const toggle = (index: number) => {
-    const current = audioRefs.current[index]
-    if (!current) return
-    if (!current.paused) {
-      current.pause()
-      return
-    }
-    audioRefs.current.forEach((audio, i) => {
-      if (audio && i !== index) audio.pause()
-    })
-    current.play().catch(() => undefined)
+  const onActivate = (index: number) => {
+    activateSample(audioRefs.current, index, startedAtRef)
   }
 
   return (
@@ -46,18 +38,8 @@ export function SoMadSamples() {
           key={sample.src}
           type="button"
           data-sample-audio=""
-          onPointerUp={(e) => {
-            if (e.pointerType !== "touch") return
-            touchPlayedRef.current = true
-            toggle(index)
-          }}
-          onClick={() => {
-            if (touchPlayedRef.current) {
-              touchPlayedRef.current = false
-              return
-            }
-            toggle(index)
-          }}
+          onTouchEnd={() => onActivate(index)}
+          onClick={() => onActivate(index)}
           onMouseEnter={() => setHovered(index)}
           onMouseLeave={() => setHovered(null)}
           style={{
