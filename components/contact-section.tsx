@@ -39,7 +39,7 @@ export function ContactSection({ lang, variant = "standalone" }: ContactSectionP
         }}
       >
         <div className="font-mono whitespace-nowrap" style={{ color: layer2Color }}>
-          dialogue/sound/space/presence
+          direction/sound/space/social practices
         </div>
         <div className="font-sans mt-[4vh]" style={{ color: messageColor }}>
           If something stayed with you,
